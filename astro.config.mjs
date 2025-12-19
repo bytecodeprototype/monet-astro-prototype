@@ -1,7 +1,17 @@
 import { defineConfig } from 'astro/config';
 
-const site = process.env.SITE_URL ?? 'https://example.com';
-const base = process.env.BASE_PATH ?? '/';
+const normalizeSite = (value) => {
+  if (!value) return 'https://example.com';
+  return value.replace(/\/$/, '');
+};
+
+const normalizeBase = (value) => {
+  if (!value || value === '/') return '/';
+  return `/${value.replace(/^\/+|\/+$/g, '')}`;
+};
+
+const site = normalizeSite(process.env.SITE_URL);
+const base = normalizeBase(process.env.BASE_PATH);
 
 export default defineConfig({
   srcDir: 'src',
