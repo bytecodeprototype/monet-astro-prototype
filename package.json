@@ -1,0 +1,23 @@
+{
+  "name": "monet-astro-prototype",
+  "version": "1.0.0",
+  "description": "Sitio Monet Label convertido a proyecto Astro.",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "keywords": [
+    "astro",
+    "landing",
+    "monet"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "astro": "^4.16.7"
+  }
+}
