@@ -1759,11 +1759,11 @@
             </symbol>
         </svg>
 
-        <!-- Dark Mode Init Script (runs immediately to prevent flash) -->
+        <!-- Dark Mode Scripts -->
         <script is:inline>
+            // Init dark mode immediately to prevent flash
             (function () {
-                const darkModeKey = "darkMode";
-                const savedDarkMode = localStorage.getItem(darkModeKey);
+                const savedDarkMode = localStorage.getItem("darkMode");
                 const prefersDark = window.matchMedia(
                     "(prefers-color-scheme: dark)",
                 ).matches;
@@ -1775,6 +1775,14 @@
                     document.documentElement.classList.add("dark-mode");
                 }
             })();
+
+            // Toggle function
+            window.toggleDarkMode = function () {
+                document.documentElement.classList.toggle("dark-mode");
+                const isNowDark =
+                    document.documentElement.classList.contains("dark-mode");
+                localStorage.setItem("darkMode", isNowDark);
+            };
         </script>
 
         <nav>
@@ -2699,16 +2707,6 @@
                         }
                     });
                 }
-
-                // ========== DARK MODE TOGGLE ==========
-                window.toggleDarkMode = function () {
-                    document.documentElement.classList.toggle("dark-mode");
-                    const isNowDark =
-                        document.documentElement.classList.contains(
-                            "dark-mode",
-                        );
-                    localStorage.setItem("darkMode", isNowDark);
-                };
 
                 // ========== SMOOTH SCROLL ANIMATIONS ==========
                 const observerOptions = {
