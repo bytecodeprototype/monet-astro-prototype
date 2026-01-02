@@ -1,0 +1,10 @@
+{
+  "terminos": {
+    "titulo": "Términos y Condiciones",
+    "contenido": "<h3>1. Aceptación de Términos</h3><p>Al acceder y utilizar este sitio web, aceptas estar sujeto a estos términos y condiciones.</p><h3>2. Productos y Servicios</h3><p>Todos los relojes ofrecidos son 100% originales y nuevos. Nos reservamos el derecho de modificar precios y disponibilidad sin previo aviso.</p><h3>3. Autenticidad</h3><p>Garantizamos la autenticidad de cada pieza. Todos los productos se entregan con su set completo original.</p><h3>4. Modificaciones</h3><p>Nos reservamos el derecho de modificar estos términos en cualquier momento.</p>"
+  },
+  "envios": {
+    "titulo": "Política de Envío",
+    "contenido": "<h3>Cobertura</h3><p>Realizamos envíos a todo Colombia con seguro incluido.</p><h3>Tiempos de Entrega</h3><p>Los envíos se procesan dentro de 1-2 días hábiles después de la confirmación del pago.</p><ul><li>Bogotá y principales ciudades: 2-3 días hábiles</li><li>Otras ciudades: 3-5 días hábiles</li></ul><h3>Seguro</h3><p>Todos los envíos están asegurados por el valor total del producto.</p><h3>Seguimiento</h3><p>Recibirás un número de guía para rastrear tu pedido en tiempo real.</p>"
+  }
+}
