@@ -2784,34 +2784,5 @@
                 );
             })();
         </script>
-
-        <!-- Theme Toggle Button -->
-        <button
-            class="theme-toggle"
-            id="theme-toggle-btn"
-            aria-label="Toggle dark mode"
-        >
-            <svg class="icon theme-icon-sun" aria-hidden="true">
-                <use href="#icon-sun"></use>
-            </svg>
-            <svg class="icon theme-icon-moon" aria-hidden="true">
-                <use href="#icon-moon"></use>
-            </svg>
-        </button>
-
-        <script is:inline>
-            document.addEventListener("DOMContentLoaded", function () {
-                const btn = document.getElementById("theme-toggle-btn");
-                if (btn) {
-                    btn.addEventListener("click", toggleDarkMode);
-                }
-            });
-        </script>
-
-        <!-- Language Toggle (Future Implementation) -->
-        <div class="lang-toggle" style="display: none;">
-            <button class="lang-btn active" data-lang="es">ES</button>
-            <button class="lang-btn" data-lang="en">EN</button>
-        </div>
     </body>
 </html>
