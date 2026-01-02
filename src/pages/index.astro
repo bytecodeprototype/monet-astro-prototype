@@ -2788,7 +2788,7 @@
         <!-- Theme Toggle Button -->
         <button
             class="theme-toggle"
-            onclick="toggleDarkMode()"
+            id="theme-toggle-btn"
             aria-label="Toggle dark mode"
         >
             <svg class="icon theme-icon-sun" aria-hidden="true">
@@ -2798,6 +2798,15 @@
                 <use href="#icon-moon"></use>
             </svg>
         </button>
+
+        <script is:inline>
+            document.addEventListener("DOMContentLoaded", function () {
+                const btn = document.getElementById("theme-toggle-btn");
+                if (btn) {
+                    btn.addEventListener("click", toggleDarkMode);
+                }
+            });
+        </script>
 
         <!-- Language Toggle (Future Implementation) -->
         <div class="lang-toggle" style="display: none;">
