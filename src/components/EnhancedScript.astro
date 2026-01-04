@@ -1,252 +1,290 @@
 ---
-import { translations } from '../i18n/translations';
+import { translations } from "../i18n/translations";
 ---
 
 <script define:vars={{ translations }}>
-(function() {
-    // ========== LANGUAGE SYSTEM ==========
-    let currentLang = localStorage.getItem('lang') || 'es';
-    const t = translations[currentLang];
+    (function () {
+        // ========== LANGUAGE SYSTEM ==========
+        let currentLang = localStorage.getItem("lang") || "es";
+        const t = translations[currentLang];
 
-    function switchLanguage(lang) {
-        currentLang = lang;
-        localStorage.setItem('lang', lang);
-        location.reload();
-    }
+        function switchLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem("lang", lang);
+            location.reload();
+        }
 
-    window.switchLanguage = switchLanguage;
-    document.documentElement.lang = currentLang;
+        window.switchLanguage = switchLanguage;
+        document.documentElement.lang = currentLang;
 
-    // ========== DARK MODE ==========
-    const darkModeKey = 'darkMode';
-    const htmlEl = document.documentElement;
+        // ========== DARK MODE ==========
+        const darkModeKey = "darkMode";
+        const htmlEl = document.documentElement;
 
-    // Check saved preference or system preference
-    const savedDarkMode = localStorage.getItem(darkModeKey);
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const isDark = savedDarkMode === 'true' || (savedDarkMode === null && prefersDark);
+        // Check saved preference or system preference
+        const savedDarkMode = localStorage.getItem(darkModeKey);
+        const prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)",
+        ).matches;
+        const isDark =
+            savedDarkMode === "true" || (savedDarkMode === null && prefersDark);
 
-    if (isDark) {
-        htmlEl.classList.add('dark-mode');
-    }
+        if (isDark) {
+            htmlEl.classList.add("dark-mode");
+        }
 
-    window.toggleDarkMode = function() {
-        htmlEl.classList.toggle('dark-mode');
-        const isNowDark = htmlEl.classList.contains('dark-mode');
-        localStorage.setItem(darkModeKey, isNowDark);
-    };
+        window.toggleDarkMode = function () {
+            htmlEl.classList.toggle("dark-mode");
+            const isNowDark = htmlEl.classList.contains("dark-mode");
+            localStorage.setItem(darkModeKey, isNowDark);
+        };
 
-    // ========== SMOOTH SCROLL ANIMATIONS ==========
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
+        // ========== SMOOTH SCROLL ANIMATIONS ==========
+        const observerOptions = {
+            root: null,
+            rootMargin: "0px",
+            threshold: 0.1,
+        };
 
-    const fadeInObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('fade-in-visible');
-                fadeInObserver.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
+        const fadeInObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("fade-in-visible");
+                    fadeInObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
 
-    document.addEventListener('DOMContentLoaded', () => {
-        // Observe all sections for fade-in
-        document.querySelectorAll('section, .watch-card, .value-card, .buy-card-enhanced, .timeline-step').forEach(el => {
-            el.classList.add('fade-in');
-            fadeInObserver.observe(el);
-        });
-
-        // Add parallax effect to hero
-        let ticking = false;
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    const scrolled = window.pageYOffset;
-                    const hero = document.querySelector('header');
-                    const mechanicalRings = document.querySelector('.mechanical-rings');
-
-                    if (hero && scrolled < hero.offsetHeight) {
-                        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-                        hero.style.opacity = 1 - (scrolled / hero.offsetHeight) * 0.8;
-                    }
-
-                    if (mechanicalRings) {
-                        mechanicalRings.style.transform = `translateY(-50%) rotate(${scrolled * 0.1}deg)`;
-                    }
-
-                    ticking = false;
+        document.addEventListener("DOMContentLoaded", () => {
+            // Observe all sections for fade-in
+            document
+                .querySelectorAll(
+                    "section, .watch-card, .value-card, .buy-card-enhanced, .timeline-step",
+                )
+                .forEach((el) => {
+                    el.classList.add("fade-in");
+                    fadeInObserver.observe(el);
                 });
-                ticking = true;
+
+            // Add parallax effect to hero
+            let ticking = false;
+            window.addEventListener("scroll", () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const scrolled = window.pageYOffset;
+                        const hero = document.querySelector("header");
+                        const mechanicalRings =
+                            document.querySelector(".mechanical-rings");
+
+                        if (hero && scrolled < hero.offsetHeight) {
+                            hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+                            hero.style.opacity =
+                                1 - (scrolled / hero.offsetHeight) * 0.8;
+                        }
+
+                        if (mechanicalRings) {
+                            mechanicalRings.style.transform = `translateY(-50%) rotate(${scrolled * 0.1}deg)`;
+                        }
+
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+
+            // FAQ auto-open on desktop
+            if (window.innerWidth > 900) {
+                document
+                    .querySelectorAll("details")
+                    .forEach((el) => el.setAttribute("open", ""));
             }
         });
 
-        // FAQ auto-open on desktop
-        if (window.innerWidth > 900) {
-            document.querySelectorAll('details').forEach(el => el.setAttribute('open', ''));
-        }
-    });
+        // ========== PRODUCT MODAL ==========
+        const products = {
+            tissot: {
+                title: "Tissot PRX Powermatic 80",
+                desc: "El reloj que definió una era, reinventado. Con su brazalete integrado y dial 'Ice Blue' con textura waffle, es la combinación perfecta de deportividad y elegancia. Maquinaria suiza automática con 80 horas de reserva.",
+                badge: "Más Buscado",
+                specs: { case: "40mm", mov: "Automático 80h", glass: "Zafiro" },
+                wa: "Hola, quiero comprar el Tissot PRX Ice Blue.",
+                img: "images/prx.png",
+            },
+            seiko: {
+                title: "Seiko 5 'Arabic Dial'",
+                desc: "Una pieza de culto instantánea. Fabricado originalmente para el mercado de Oriente Medio, destaca por sus números indo-arábigos. Una rareza exótica en 40mm que todo coleccionista busca.",
+                badge: "Pieza de Culto",
+                specs: {
+                    case: "42mm",
+                    mov: "Automático 4R36",
+                    glass: "Hardlex",
+                },
+                wa: "Hola, me interesa el Seiko 5 Arabic Dial.",
+                img: "images/seiko.png",
+            },
+            orient: {
+                title: "Orient Ray II Diver",
+                desc: "Posiblemente el mejor 'Diver' en su rango de precio. Certificación de 200 metros, corona roscada y un movimiento in-house robusto. El reloj herramienta definitivo para el día a día.",
+                badge: "Best Value",
+                specs: {
+                    case: "41.5mm",
+                    mov: "Automático F6922",
+                    glass: "Mineral",
+                },
+                wa: "Hola, quiero información del Orient Ray II.",
+                img: "images/orient.png",
+            },
+        };
 
-    // ========== PRODUCT MODAL ==========
-    const products = {
-        tissot: {
-            title: "Tissot PRX Powermatic 80",
-            desc: "El reloj que definió una era, reinventado. Con su brazalete integrado y dial 'Ice Blue' con textura waffle, es la combinación perfecta de deportividad y elegancia. Maquinaria suiza automática con 80 horas de reserva.",
-            badge: "Más Buscado",
-            specs: { case: "40mm", mov: "Automático 80h", glass: "Zafiro" },
-            wa: "Hola, quiero comprar el Tissot PRX Ice Blue.",
-            img: "images/prx.png",
-        },
-        seiko: {
-            title: "Seiko 5 'Arabic Dial'",
-            desc: "Una pieza de culto instantánea. Fabricado originalmente para el mercado de Oriente Medio, destaca por sus números indo-arábigos. Una rareza exótica en 40mm que todo coleccionista busca.",
-            badge: "Pieza de Culto",
-            specs: { case: "40mm", mov: "Automático 4R36", glass: "Hardlex" },
-            wa: "Hola, me interesa el Seiko 5 Arabic Dial.",
-            img: "images/seiko.png",
-        },
-        orient: {
-            title: "Orient Ray II Diver",
-            desc: "Posiblemente el mejor 'Diver' en su rango de precio. Certificación de 200 metros, corona roscada y un movimiento in-house robusto. El reloj herramienta definitivo para el día a día.",
-            badge: "Best Value",
-            specs: { case: "41.5mm", mov: "Automático F6922", glass: "Mineral" },
-            wa: "Hola, quiero información del Orient Ray II.",
-            img: "images/orient.png",
-        },
-    };
+        const NUMBER = "573014914532";
+        const modal = document.getElementById("modalBackdrop");
 
-    const NUMBER = "573014914532";
-    const modal = document.getElementById("modalBackdrop");
+        window.openProduct = function (id) {
+            const p = products[id];
+            if (!p) return;
+            document.getElementById("modalTitle").textContent = p.title;
+            document.getElementById("modalDesc").textContent = p.desc;
+            document.getElementById("modalBadge").innerHTML =
+                `<svg class="icon icon-tag" aria-hidden="true"><use href="#icon-tag"></use></svg> ${p.badge}`;
+            document.getElementById("specCase").textContent = p.specs.case;
+            document.getElementById("specMov").textContent = p.specs.mov;
+            document.getElementById("specGlass").textContent = p.specs.glass;
+            document.getElementById("modalMainImg").src = p.img;
+            document.getElementById("modalCta").href =
+                `https://wa.me/${NUMBER}?text=${encodeURIComponent(p.wa)}`;
+            modal.classList.add("active");
+            document.body.style.overflow = "hidden";
+        };
 
-    window.openProduct = function(id) {
-        const p = products[id];
-        if (!p) return;
-        document.getElementById("modalTitle").textContent = p.title;
-        document.getElementById("modalDesc").textContent = p.desc;
-        document.getElementById("modalBadge").innerHTML =
-            `<svg class="icon icon-tag" aria-hidden="true"><use href="#icon-tag"></use></svg> ${p.badge}`;
-        document.getElementById("specCase").textContent = p.specs.case;
-        document.getElementById("specMov").textContent = p.specs.mov;
-        document.getElementById("specGlass").textContent = p.specs.glass;
-        document.getElementById("modalMainImg").src = p.img;
-        document.getElementById("modalCta").href =
-            `https://wa.me/${NUMBER}?text=${encodeURIComponent(p.wa)}`;
-        modal.classList.add("active");
-        document.body.style.overflow = "hidden";
-    };
+        window.closeProduct = function () {
+            modal.classList.remove("active");
+            document.body.style.overflow = "auto";
+        };
 
-    window.closeProduct = function() {
-        modal.classList.remove("active");
-        document.body.style.overflow = "auto";
-    };
-
-    modal?.addEventListener("click", (e) => {
-        if (e.target === modal) closeProduct();
-    });
-
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && modal?.classList.contains("active")) closeProduct();
-    });
-
-    // WhatsApp links
-    document.querySelectorAll("[data-wa]").forEach((el) => {
-        if (!el.id.includes("modal")) {
-            const text = encodeURIComponent(el.getAttribute("data-wa"));
-            el.href = `https://wa.me/${NUMBER}?text=${text}`;
-        }
-    });
-
-    // ========== CONTENT MODAL ==========
-    let legalContent = {};
-
-    (async function loadLegalContent() {
-        try {
-            const response = await fetch("/content/legal.json");
-            if (!response.ok) throw new Error("Failed to load");
-            legalContent = await response.json();
-        } catch (err) {
-            console.error("Error loading legal content:", err);
-        }
-    })();
-
-    window.openContentModal = function(type) {
-        const content = legalContent[type];
-        if (!content) {
-            console.warn("Content not found for:", type);
-            return;
-        }
-
-        const modal = document.getElementById("contentModal");
-        document.getElementById("contentModalTitle").textContent = content.titulo;
-        document.getElementById("contentModalBody").innerHTML = content.contenido;
-
-        modal.classList.add("active");
-        document.body.style.overflow = "hidden";
-    };
-
-    window.closeContentModal = function() {
-        const modal = document.getElementById("contentModal");
-        modal.classList.remove("active");
-        document.body.style.overflow = "auto";
-    };
-
-    const contentModal = document.getElementById("contentModal");
-    if (contentModal) {
-        contentModal.addEventListener("click", (e) => {
-            if (e.target === contentModal) closeContentModal();
+        modal?.addEventListener("click", (e) => {
+            if (e.target === modal) closeProduct();
         });
 
         document.addEventListener("keydown", (e) => {
-            if (e.key === "Escape" && contentModal?.classList.contains("active")) {
-                closeContentModal();
+            if (e.key === "Escape" && modal?.classList.contains("active"))
+                closeProduct();
+        });
+
+        // WhatsApp links
+        document.querySelectorAll("[data-wa]").forEach((el) => {
+            if (!el.id.includes("modal")) {
+                const text = encodeURIComponent(el.getAttribute("data-wa"));
+                el.href = `https://wa.me/${NUMBER}?text=${text}`;
             }
         });
-    }
 
-    // ========== MOBILE UX ENHANCEMENTS ==========
-    let touchStartX = 0;
-    let touchStartY = 0;
-    let touchEndX = 0;
-    let touchEndY = 0;
+        // ========== CONTENT MODAL ==========
+        let legalContent = {};
 
-    document.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-        touchStartY = e.changedTouches[0].screenY;
-    }, { passive: true });
+        (async function loadLegalContent() {
+            try {
+                const response = await fetch("/content/legal.json");
+                if (!response.ok) throw new Error("Failed to load");
+                legalContent = await response.json();
+            } catch (err) {
+                console.error("Error loading legal content:", err);
+            }
+        })();
 
-    document.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        touchEndY = e.changedTouches[0].screenY;
-        handleSwipe();
-    }, { passive: true });
+        window.openContentModal = function (type) {
+            const content = legalContent[type];
+            if (!content) {
+                console.warn("Content not found for:", type);
+                return;
+            }
 
-    function handleSwipe() {
-        const diffX = touchEndX - touchStartX;
-        const diffY = touchEndY - touchStartY;
+            const modal = document.getElementById("contentModal");
+            document.getElementById("contentModalTitle").textContent =
+                content.titulo;
+            document.getElementById("contentModalBody").innerHTML =
+                content.contenido;
 
-        // Swipe right to left closes modals
-        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 100) {
-            if (diffX < 0) { // Swipe left
-                if (modal?.classList.contains('active')) closeProduct();
-                if (contentModal?.classList.contains('active')) closeContentModal();
+            modal.classList.add("active");
+            document.body.style.overflow = "hidden";
+        };
+
+        window.closeContentModal = function () {
+            const modal = document.getElementById("contentModal");
+            modal.classList.remove("active");
+            document.body.style.overflow = "auto";
+        };
+
+        const contentModal = document.getElementById("contentModal");
+        if (contentModal) {
+            contentModal.addEventListener("click", (e) => {
+                if (e.target === contentModal) closeContentModal();
+            });
+
+            document.addEventListener("keydown", (e) => {
+                if (
+                    e.key === "Escape" &&
+                    contentModal?.classList.contains("active")
+                ) {
+                    closeContentModal();
+                }
+            });
+        }
+
+        // ========== MOBILE UX ENHANCEMENTS ==========
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let touchEndY = 0;
+
+        document.addEventListener(
+            "touchstart",
+            (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
+            },
+            { passive: true },
+        );
+
+        document.addEventListener(
+            "touchend",
+            (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                touchEndY = e.changedTouches[0].screenY;
+                handleSwipe();
+            },
+            { passive: true },
+        );
+
+        function handleSwipe() {
+            const diffX = touchEndX - touchStartX;
+            const diffY = touchEndY - touchStartY;
+
+            // Swipe right to left closes modals
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 100) {
+                if (diffX < 0) {
+                    // Swipe left
+                    if (modal?.classList.contains("active")) closeProduct();
+                    if (contentModal?.classList.contains("active"))
+                        closeContentModal();
+                }
             }
         }
-    }
 
-    // Add smooth scroll behavior
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            const href = this.getAttribute('href');
-            if (href === '#') return;
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+            anchor.addEventListener("click", function (e) {
+                const href = this.getAttribute("href");
+                if (href === "#") return;
 
-            e.preventDefault();
-            const target = document.querySelector(href);
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start",
+                    });
+                }
+            });
         });
-    });
-})();
+    })();
 </script>
